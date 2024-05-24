@@ -1,0 +1,37 @@
+image: node:14
+
+pipelines:
+  default:
+    - step:
+        name: Build and Test
+        caches:
+          - node
+        script:
+          - npm install
+          - npm test
+
+  branches:
+    feature/*:
+      - step:
+          name: Build and Test
+          caches:
+            - node
+          script:
+            - npm install
+            - npm test
+
+    master:
+      - step:
+          name: Build, Test and Deploy
+          caches:
+            - node
+          script:
+            - npm install
+            - npm test
+            - npm run build
+            - echo "Deploying to production..."
+            # Add your deployment script/commands here
+
+definitions:
+  caches:
+    node: npm
